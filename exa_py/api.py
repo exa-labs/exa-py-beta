@@ -81,13 +81,17 @@ def to_snake_case(data: dict) -> dict:
 
 SEARCH_OPTIONS_TYPES = {
     "query": [str],  # The query string.
-    "num_results": [int],  # Number of results (Default: 10, Max for basic: 10).
+    # Number of results (Default: 10, Max for basic: 10).
+    "num_results": [int],
     "include_domains": [
         list
     ],  # Domains to search from; exclusive with 'exclude_domains'.
-    "exclude_domains": [list],  # Domains to omit; exclusive with 'include_domains'.
-    "start_crawl_date": [str],  # Results after this crawl date. ISO 8601 format.
-    "end_crawl_date": [str],  # Results before this crawl date. ISO 8601 format.
+    # Domains to omit; exclusive with 'include_domains'.
+    "exclude_domains": [list],
+    # Results after this crawl date. ISO 8601 format.
+    "start_crawl_date": [str],
+    # Results before this crawl date. ISO 8601 format.
+    "end_crawl_date": [str],
     "start_published_date": [
         str
     ],  # Results after this publish date; excludes links with no date. ISO 8601 format.
@@ -97,8 +101,10 @@ SEARCH_OPTIONS_TYPES = {
     "include_text": [
         list
     ],  # list of strings that must be present in webpage text of results. Currently, only one string is supported, up to 5 words.
-    "exclude_text": [list],  # list of strings that must not be present in webpage text of result. Currently, only one string is supported, up to 5 words.
-    "use_autoprompt": [bool],  # Convert query to Exa (Higher latency, Default: false).
+    # list of strings that must not be present in webpage text of result. Currently, only one string is supported, up to 5 words.
+    "exclude_text": [list],
+    # Convert query to Exa (Higher latency, Default: false).
+    "use_autoprompt": [bool],
     "type": [
         str
     ],  # 'keyword' or 'neural' (Default: neural). Choose 'neural' for high-quality, semantically relevant content in popular domains. 'Keyword' is for specific, local, or obscure queries.
@@ -127,6 +133,7 @@ CONTENTS_OPTIONS_TYPES = {
     "text": [dict, bool],
     "highlights": [dict, bool],
     "summary": [dict, bool],
+    "livecrawl": [str],
 }
 
 
@@ -176,6 +183,7 @@ class HighlightsContentsOptions(TypedDict, total=False):
     num_sentences: int
     highlights_per_url: int
 
+
 class SummaryContentsOptions(TypedDict, total=False):
     """A class representing the options that you can specify when requesting summary
 
@@ -184,6 +192,7 @@ class SummaryContentsOptions(TypedDict, total=False):
     """
 
     query: str
+
 
 @dataclass
 class _Result:
@@ -303,6 +312,7 @@ class ResultWithTextAndHighlights(_Result):
             f"Highlight Scores: {self.highlight_scores}\n"
         )
 
+
 @dataclass
 class ResultWithSummary(_Result):
     """
@@ -317,6 +327,7 @@ class ResultWithSummary(_Result):
     def __str__(self):
         base_str = super().__str__()
         return base_str + f"Summary: {self.summary}\n"
+
 
 @dataclass
 class ResultWithTextAndSummary(_Result):
@@ -334,6 +345,7 @@ class ResultWithTextAndSummary(_Result):
     def __str__(self):
         base_str = super().__str__()
         return base_str + f"Text: {self.text}\n" + f"Summary: {self.summary}\n"
+
 
 @dataclass
 class ResultWithHighlightsAndSummary(_Result):
@@ -357,6 +369,7 @@ class ResultWithHighlightsAndSummary(_Result):
             f"Highlight Scores: {self.highlight_scores}\n"
             f"Summary: {self.summary}\n"
         )
+
 
 @dataclass
 class ResultWithTextAndHighlightsAndSummary(_Result):
@@ -383,6 +396,7 @@ class ResultWithTextAndHighlightsAndSummary(_Result):
             f"Highlight Scores: {self.highlight_scores}\n"
             f"Summary: {self.summary}\n"
         )
+
 
 T = TypeVar("T")
 
@@ -450,7 +464,8 @@ class Exa:
         self.headers = {"x-api-key": api_key, "User-Agent": user_agent}
 
     def request(self, endpoint: str, data):
-        res = requests.post(self.base_url + endpoint, json=data, headers=self.headers)
+        res = requests.post(self.base_url + endpoint,
+                            json=data, headers=self.headers)
         if res.status_code != 200:
             raise ValueError(
                 f"Request failed with status code {res.status_code}: {res.text}"
@@ -493,7 +508,8 @@ class Exa:
         Returns:
             SearchResponse: The response containing search results and optional autoprompt string.
         """
-        options = {k: v for k, v in locals().items() if k != "self" and v is not None}
+        options = {k: v for k, v in locals().items() if k !=
+                   "self" and v is not None}
         validate_search_options(options, SEARCH_OPTIONS_TYPES)
         options = to_camel_case(options)
         data = self.request("/search", options)
@@ -519,6 +535,7 @@ class Exa:
         use_autoprompt: Optional[bool] = None,
         type: Optional[str] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -540,6 +557,7 @@ class Exa:
         use_autoprompt: Optional[bool] = None,
         type: Optional[str] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -561,6 +579,7 @@ class Exa:
         use_autoprompt: Optional[bool] = None,
         type: Optional[str] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithHighlights]:
         ...
 
@@ -583,6 +602,7 @@ class Exa:
         use_autoprompt: Optional[bool] = None,
         type: Optional[str] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithTextAndHighlights]:
         ...
 
@@ -604,6 +624,7 @@ class Exa:
         use_autoprompt: Optional[bool] = None,
         type: Optional[str] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithSummary]:
         ...
 
@@ -626,6 +647,7 @@ class Exa:
         use_autoprompt: Optional[bool] = None,
         type: Optional[str] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithTextAndSummary]:
         ...
 
@@ -648,6 +670,7 @@ class Exa:
         use_autoprompt: Optional[bool] = None,
         type: Optional[str] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithHighlightsAndSummary]:
         ...
 
@@ -671,6 +694,7 @@ class Exa:
         use_autoprompt: Optional[bool] = None,
         type: Optional[str] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithTextAndHighlightsAndSummary]:
         ...
 
@@ -685,7 +709,8 @@ class Exa:
         validate_search_options(
             options, {**SEARCH_OPTIONS_TYPES, **CONTENTS_OPTIONS_TYPES}
         )
-        options = nest_fields(options, ["text", "highlights", "summary"], "contents")
+        options = nest_fields(
+            options, ["text", "highlights", "summary", "livecrawl"], "contents")
         options = to_camel_case(options)
         data = self.request("/search", options)
         return SearchResponse(
@@ -697,6 +722,7 @@ class Exa:
     def get_contents(
         self,
         ids: Union[str, List[str], List[_Result]],
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -706,6 +732,7 @@ class Exa:
         ids: Union[str, List[str], List[_Result]],
         *,
         text: Union[TextContentsOptions, Literal[True]],
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -715,6 +742,7 @@ class Exa:
         ids: Union[str, List[str], List[_Result]],
         *,
         highlights: Union[HighlightsContentsOptions, Literal[True]],
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithHighlights]:
         ...
 
@@ -725,6 +753,7 @@ class Exa:
         *,
         text: Union[TextContentsOptions, Literal[True]],
         highlights: Union[HighlightsContentsOptions, Literal[True]],
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithTextAndHighlights]:
         ...
 
@@ -734,6 +763,7 @@ class Exa:
         ids: Union[str, List[str], List[_Result]],
         *,
         summary: Union[SummaryContentsOptions, Literal[True]],
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithSummary]:
         ...
 
@@ -744,6 +774,7 @@ class Exa:
         *,
         text: Union[TextContentsOptions, Literal[True]],
         summary: Union[SummaryContentsOptions, Literal[True]],
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithTextAndSummary]:
         ...
 
@@ -754,6 +785,7 @@ class Exa:
         *,
         highlights: Union[HighlightsContentsOptions, Literal[True]],
         summary: Union[SummaryContentsOptions, Literal[True]],
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithHighlightsAndSummary]:
         ...
 
@@ -765,6 +797,7 @@ class Exa:
         text: Union[TextContentsOptions, Literal[True]],
         highlights: Union[HighlightsContentsOptions, Literal[True]],
         summary: Union[SummaryContentsOptions, Literal[True]],
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithTextAndHighlightsAndSummary]:
         ...
 
@@ -800,7 +833,8 @@ class Exa:
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
     ) -> SearchResponse[_Result]:
-        options = {k: v for k, v in locals().items() if k != "self" and v is not None}
+        options = {k: v for k, v in locals().items() if k !=
+                   "self" and v is not None}
         validate_search_options(options, FIND_SIMILAR_OPTIONS_TYPES)
         options = to_camel_case(options)
         data = self.request("/findSimilar", options)
@@ -825,6 +859,7 @@ class Exa:
         exclude_text: Optional[List[str]] = None,
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -845,6 +880,7 @@ class Exa:
         exclude_text: Optional[List[str]] = None,
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -865,6 +901,7 @@ class Exa:
         exclude_text: Optional[List[str]] = None,
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithHighlights]:
         ...
 
@@ -886,6 +923,7 @@ class Exa:
         exclude_text: Optional[List[str]] = None,
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithTextAndHighlights]:
         ...
 
@@ -906,6 +944,7 @@ class Exa:
         exclude_text: Optional[List[str]] = None,
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithSummary]:
         ...
 
@@ -927,6 +966,7 @@ class Exa:
         exclude_text: Optional[List[str]] = None,
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithTextAndSummary]:
         ...
 
@@ -948,6 +988,7 @@ class Exa:
         exclude_text: Optional[List[str]] = None,
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithHighlightsAndSummary]:
         ...
 
@@ -970,6 +1011,7 @@ class Exa:
         exclude_text: Optional[List[str]] = None,
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
+        livecrawl: Optional[str] = None,
     ) -> SearchResponse[ResultWithTextAndHighlightsAndSummary]:
         ...
 
@@ -985,7 +1027,8 @@ class Exa:
             options, {**FIND_SIMILAR_OPTIONS_TYPES, **CONTENTS_OPTIONS_TYPES}
         )
         options = to_camel_case(options)
-        options = nest_fields(options, ["text", "highlights", "summary"], "contents")
+        options = nest_fields(
+            options, ["text", "highlights", "summary", "livecrawl"], "contents")
         data = self.request("/findSimilar", options)
         return SearchResponse(
             [Result(**to_snake_case(result)) for result in data["results"]],
@@ -1015,7 +1058,8 @@ class Exa:
             model: Union[str, ChatModel],
             # Exa args
             use_exa: Optional[Literal["required", "none", "auto"]] = "auto",
-            highlights: Union[HighlightsContentsOptions, Literal[True], None] = None,
+            highlights: Union[HighlightsContentsOptions,
+                              Literal[True], None] = None,
             num_results: Optional[int] = 3,
             include_domains: Optional[List[str]] = None,
             exclude_domains: Optional[List[str]] = None,
@@ -1065,8 +1109,9 @@ class Exa:
                 exa_kwargs=exa_kwargs,
             )
 
-        print("Wrapping OpenAI client with Exa functionality.", type(create_with_rag))
-        client.chat.completions.create = create_with_rag # type: ignore
+        print("Wrapping OpenAI client with Exa functionality.",
+              type(create_with_rag))
+        client.chat.completions.create = create_with_rag  # type: ignore
 
         return client
 
