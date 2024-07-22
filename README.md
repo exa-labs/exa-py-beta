@@ -1,14 +1,11 @@
-# Exa
+# exa-py (Beta)
 
-Exa (formerly Metaphor) API in Python
-
-Note: This API is basically the same as `metaphor-python` but reflects new
-features associated with Metaphor's rename to Exa. New site is https://exa.ai
+For the official, stable version of Exa's Python SDK, please go to https://pypi.org/project/exa-py/
 
 ## Installation
 
 ```bash
-pip install exa_py
+pip install exa_py_beta
 ```
 
 ## Usage
@@ -22,6 +19,7 @@ exa = Exa(api_key="your-api-key")
 ```
 
 ## Common requests
+
 ```python
 
   # basic search
@@ -46,10 +44,11 @@ exa = Exa(api_key="your-api-key")
   results = exa.search_and_contents("This is a Exa query:", highlights=True)
 
   # search and get contents with contents options
-  results = exa.search_and_contents("This is a Exa query:", 
-                                    text={"include_html_tags": True, "max_characters": 1000}, 
-                                    highlights={"highlights_per_url": 2, "num_sentences": 1, "query": "This is the highlight query:"})
-                                    
+  results = exa.search_and_contents("This is a Exa query:",
+                                    text={"include_html_tags": True, "max_characters": 1000},
+                                    highlights={"highlights_per_url": 2, "num_sentences": 1, "query": "This is the highlight query:"},
+                                    livecrawl="always") # livecrawl options: 'never', 'fallback', 'always'
+
   # find similar documents
   results = exa.find_similar("https://example.com")
 
@@ -57,7 +56,7 @@ exa = Exa(api_key="your-api-key")
   results = exa.find_similar("https://example.com", exclude_source_domain=True)
 
   # find similar with contents
-  results = exa.find_similar_and_contents("https://example.com", text=True, highlights=True)
+  results = exa.find_similar_and_contents("https://example.com", text=True, highlights=True, livecrawl="always") # livecrawl options: 'never', 'fallback', 'always'
 
   # get text contents
   results = exa.get_contents(["ids"])
@@ -66,8 +65,8 @@ exa = Exa(api_key="your-api-key")
   results = exa.get_contents(["ids"], highlights=True)
 
   # get contents with contents options
-  results = exa.get_contents(["ids"], 
-                             text={"include_html_tags": True, "max_characters": 1000}, 
-                             highlights={"highlights_per_url": 2, "num_sentences": 1, "query": "This is the highlight query:"})
+  results = exa.get_contents(["ids"],
+                             text={"include_html_tags": True, "max_characters": 1000},
+                             highlights={"highlights_per_url": 2, "num_sentences": 1, "query": "This is the highlight query:"},
+                             livecrawl="always") # livecrawl options: 'never', 'fallback', 'always'
 ```
-

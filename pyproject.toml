@@ -2,7 +2,7 @@
 name = "exa-py-beta"
 version = "1.0.14-beta.0"
 description = "[Beta] Exa API in Python"
-authors = ["Your Name <you@example.com>"]
+authors = ["Jeff Wang <jeff@exa.ai>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
