@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="exa_py_beta",
-    version="1.0.16-beta.0",
+    version="1.0.16-beta.1",
     description="[Beta] Python SDK for Exa API.",
     long_description_content_type="text/markdown",
     long_description=open("README.md").read(),

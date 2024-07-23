@@ -5,7 +5,7 @@ For the official, stable version of Exa's Python SDK, please go to https://pypi.
 ## Installation
 
 ```bash
-pip install exa_py_beta
+pip install exa-py-beta
 ```
 
 ## Usage
