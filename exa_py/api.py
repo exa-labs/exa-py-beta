@@ -536,6 +536,7 @@ class Exa:
         type: Optional[str] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -558,6 +559,7 @@ class Exa:
         type: Optional[str] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -580,6 +582,7 @@ class Exa:
         type: Optional[str] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithHighlights]:
         ...
 
@@ -603,6 +606,7 @@ class Exa:
         type: Optional[str] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithTextAndHighlights]:
         ...
 
@@ -625,6 +629,7 @@ class Exa:
         type: Optional[str] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithSummary]:
         ...
 
@@ -648,6 +653,7 @@ class Exa:
         type: Optional[str] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithTextAndSummary]:
         ...
 
@@ -671,6 +677,7 @@ class Exa:
         type: Optional[str] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithHighlightsAndSummary]:
         ...
 
@@ -695,6 +702,7 @@ class Exa:
         type: Optional[str] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithTextAndHighlightsAndSummary]:
         ...
 
@@ -723,6 +731,7 @@ class Exa:
         self,
         ids: Union[str, List[str], List[_Result]],
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -733,6 +742,7 @@ class Exa:
         *,
         text: Union[TextContentsOptions, Literal[True]],
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -743,6 +753,7 @@ class Exa:
         *,
         highlights: Union[HighlightsContentsOptions, Literal[True]],
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithHighlights]:
         ...
 
@@ -754,6 +765,7 @@ class Exa:
         text: Union[TextContentsOptions, Literal[True]],
         highlights: Union[HighlightsContentsOptions, Literal[True]],
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithTextAndHighlights]:
         ...
 
@@ -764,6 +776,7 @@ class Exa:
         *,
         summary: Union[SummaryContentsOptions, Literal[True]],
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithSummary]:
         ...
 
@@ -775,6 +788,7 @@ class Exa:
         text: Union[TextContentsOptions, Literal[True]],
         summary: Union[SummaryContentsOptions, Literal[True]],
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithTextAndSummary]:
         ...
 
@@ -786,6 +800,7 @@ class Exa:
         highlights: Union[HighlightsContentsOptions, Literal[True]],
         summary: Union[SummaryContentsOptions, Literal[True]],
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithHighlightsAndSummary]:
         ...
 
@@ -798,6 +813,7 @@ class Exa:
         highlights: Union[HighlightsContentsOptions, Literal[True]],
         summary: Union[SummaryContentsOptions, Literal[True]],
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithTextAndHighlightsAndSummary]:
         ...
 
@@ -860,6 +876,7 @@ class Exa:
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -881,6 +898,7 @@ class Exa:
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithText]:
         ...
 
@@ -902,6 +920,7 @@ class Exa:
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithHighlights]:
         ...
 
@@ -924,6 +943,7 @@ class Exa:
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithTextAndHighlights]:
         ...
 
@@ -945,6 +965,7 @@ class Exa:
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithSummary]:
         ...
 
@@ -967,6 +988,7 @@ class Exa:
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithTextAndSummary]:
         ...
 
@@ -989,6 +1011,7 @@ class Exa:
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithHighlightsAndSummary]:
         ...
 
@@ -1012,6 +1035,7 @@ class Exa:
         exclude_source_domain: Optional[bool] = None,
         category: Optional[str] = None,
         livecrawl: Optional[str] = None,
+        filter_empty_results: Optional[bool] = None,
     ) -> SearchResponse[ResultWithTextAndHighlightsAndSummary]:
         ...
 

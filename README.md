@@ -47,7 +47,10 @@ exa = Exa(api_key="your-api-key")
   results = exa.search_and_contents("This is a Exa query:",
                                     text={"include_html_tags": True, "max_characters": 1000},
                                     highlights={"highlights_per_url": 2, "num_sentences": 1, "query": "This is the highlight query:"},
-                                    livecrawl="always") # livecrawl options: 'never', 'fallback', 'always'
+                                    livecrawl="always" # livecrawl options: 'never', 'fallback', 'always'
+                                    filter_empty_results=True # boolean; default True
+                                    )
+
 
   # find similar documents
   results = exa.find_similar("https://example.com")
@@ -56,7 +59,12 @@ exa = Exa(api_key="your-api-key")
   results = exa.find_similar("https://example.com", exclude_source_domain=True)
 
   # find similar with contents
-  results = exa.find_similar_and_contents("https://example.com", text=True, highlights=True, livecrawl="always") # livecrawl options: 'never', 'fallback', 'always'
+  results = exa.find_similar_and_contents("https://example.com",
+                                          text=True,
+                                          highlights=True,
+                                          livecrawl="always" # livecrawl options: 'never', 'fallback', 'always'
+                                          filter_empty_results=False # boolean; default False
+                                          )
 
   # get text contents
   results = exa.get_contents(["ids"])
@@ -68,5 +76,7 @@ exa = Exa(api_key="your-api-key")
   results = exa.get_contents(["ids"],
                              text={"include_html_tags": True, "max_characters": 1000},
                              highlights={"highlights_per_url": 2, "num_sentences": 1, "query": "This is the highlight query:"},
-                             livecrawl="always") # livecrawl options: 'never', 'fallback', 'always'
+                             livecrawl="always" # livecrawl options: 'never', 'fallback', 'always'
+                             filter_empty_results=True # boolean; default True
+                             )
 ```
